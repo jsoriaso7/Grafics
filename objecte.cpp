@@ -1,6 +1,7 @@
 #include <objecte.h>
 #include <readfile.h>
 
+
 Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(parent){
     points = new point4[numPoints];
     colors = new point4[numPoints];
@@ -9,6 +10,10 @@ Objecte::Objecte(int npoints, QObject *parent) : numPoints(npoints) ,QObject(par
 Objecte::Objecte(int npoints, QString n) : numPoints(npoints){
     points = new point4[numPoints];
     colors = new point4[numPoints];
+
+
+    Material *mat = new Material();
+
     readObj(n);
     make();
 }
@@ -31,6 +36,7 @@ void Objecte::toGPU(QGLShaderProgram *pr) {
     glBufferData( GL_ARRAY_BUFFER, sizeof(point4)*Index + sizeof(point4)*Index, NULL, GL_STATIC_DRAW );
     glEnable( GL_DEPTH_TEST );
 //    glEnable( GL_TEXTURE_2D );
+
 
 }
 
@@ -55,6 +61,8 @@ void Objecte::draw(){
 
     program->enableAttributeArray(colorLocation);
     program->setAttributeBuffer("vColor", GL_FLOAT, sizeof(point4)*Index, 4);
+
+    mat->toGPU(program);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDrawArrays( GL_TRIANGLES, 0, Index );

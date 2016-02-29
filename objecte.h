@@ -7,6 +7,7 @@
 #include <cara.h>
 #include <QGLShaderProgram>
 #include <QOpenGLTexture>
+#include <material.h>
 
 using namespace std;
 
@@ -17,6 +18,9 @@ class Objecte : public QObject {
 
     Q_OBJECT
 protected:
+
+    Material mat;
+
     QString nom;
     vector<Cara> cares;
     vector<point4> vertexs;
